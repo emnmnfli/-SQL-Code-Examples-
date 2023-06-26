@@ -1,0 +1,28 @@
+--New Year Christmas tree
+
+select 
+       lpad(' ',5-level, ' ') || lpad('*',2*level-1, '*')
+from dual 
+connect by level <=5;
+
+--How many days do you live
+
+select
+	rtrim
+    (ltrim
+    (numtodsinterval(sysdate-to_date('14.08.1994','dd.mm.yyyy'),'day'),'+0'),'0')
+from dual;
+
+
+--The middle letter
+
+select
+department_name,
+case mod(length(department_name),2)
+when 1 
+	then
+		substr(department_name,round(length(department_name)/2),1)
+	else 
+		substr(department_name,round(length(department_name)/2),2)
+end
+from departments;
