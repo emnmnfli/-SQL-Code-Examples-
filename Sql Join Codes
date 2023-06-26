@@ -1,1 +1,24 @@
+--Employees who enter work before their superiors
 
+select
+      isci.first_name,
+      menecer.first_name,
+      isci.hire_date as Isci,
+      menecer.hire_date as Menecer,
+      isci.manager_id,
+      menecer.employee_id
+      from employees isci 
+      inner join employees menecer on ( isci.manager_id = menecer.employee_id)
+      where isci.hire_date < menecer.hire_date;
+
+--The name of the country where each employee works
+
+select
+        e.first_name,
+        e.last_name,
+        c.country_name
+        from employees e 
+        left outer join departments d on  e.department_id = d.department_id
+        left outer join locations l on  d.location_id = l.location_id
+        left outer join countries c on c.country_id  = l.country_id;
+       
