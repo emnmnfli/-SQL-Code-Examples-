@@ -1,0 +1,17 @@
+-- Hər bir işçinin qarşısına həmin işçinin işlədiyi ölkədə işləyənlərdən ilk işə girən işçinin
+-- işə girmə tarixini çıxaran SQL.
+
+SELECT emp.employee_id,
+       emp.hire_date,
+       con.country_name,
+ FIRST_VALUE(emp.hire_date) over(partition by con.country_name 
+        order by emp.hire_date  range between unbounded preceding and current row) AS "ILK ISHE GIREN HD",
+ FIRST_VALUE(emp.first_name) over(partition by con.country_name 
+        order by emp.hire_date  range between unbounded preceding and current row) AS "ILK ISHE GIREN FN"
+FROM employees emp 
+  JOIN departments dep
+    ON (emp.department_id = dep.department_id)
+  JOIN locations loc
+    ON (dep.location_id = loc.location_id)
+  JOIN hr.countries con
+    ON (loc.country_id = con.country_id);
