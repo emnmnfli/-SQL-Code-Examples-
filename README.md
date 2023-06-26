@@ -1,2 +1,2 @@
-# Praktika-1
+"SQL Code Examples"
 SQL-HR Schema
