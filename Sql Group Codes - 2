@@ -1,0 +1,21 @@
+/* Hər bir managerin qarşısında onun tabeçiliyində olan əməkdşların adlarını siyahı şəklində */
+
+select
+    menecer.employee_id as "manager id",
+    menecer.first_name as "manager name",
+    listagg(isci.first_name, ' ,') 
+            within group (order by isci.first_name) as "list_of_employees"
+from employees isci inner join employees menecer
+    on isci.manager_id = menecer.employee_id
+group by menecer.first_name, menecer.employee_id;
+
+
+/* Employees cədvəlində hər department_id üzrə, commission_pct sütunlarının null olan və null olmayan sətirlərin sayları */
+
+SELECT 
+    e.department_id, 
+    count(NVL2(e.commission_pct,NULL,1)) "null_count" , 
+    count(e.commission_pct) "notnull_count"
+FROM employees e
+GROUP BY e.department_id
+ORDER BY department_id;
