@@ -1,0 +1,28 @@
+with 
+    EMP as ( 
+        select 
+            e.last_name, 
+            e.salary,
+            d.department_name,
+            avg(e.salary) over(partition by d.department_name) as av,
+            max(e.salary) over(partition by d.department_name) as mx
+        from employees e inner join departments d on (e.department_id = d.department_id)
+        )
+select * from EMP
+where EMP.av < EMP.mx/2;
+
+
+with
+    DEP as (
+            select * from
+            (
+                select 
+                    department_id,
+                    department_name,
+                    row_number() over(order by department_id) as rn
+                from departments
+            )
+            where rn<=3)
+select e.last_name, dep.department_id, dep.department_name
+from employees e inner join DEP on e.department_id = dep.department_id
+;   
